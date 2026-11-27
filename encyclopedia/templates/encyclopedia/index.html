@@ -1,0 +1,26 @@
+{% extends 'encyclopedia/base.html' %}
+{% block content %}
+<section class="intro"><h1>Онлайн-энциклопедия</h1>
+<p>Статьи о космосе, природе, науке и истории. Выберите раздел или найдите интересующую тему.</p></section>
+<form class="search-form" method="get" action="{% url 'encyclopedia:index' %}">
+  <div><label for="id_q">Поиск по статьям</label>{{ form.q }}</div>
+  <div><label for="id_category">Раздел</label>{{ form.category }}</div>
+  <button type="submit">Найти</button>
+  <a href="{% url 'encyclopedia:index' %}">Сбросить</a>
+</form>
+{% if form.errors %}<div class="errors" role="alert">{{ form.errors }}</div>{% endif %}
+<section id="catalog">
+  <div class="catalog-heading"><h2>Статьи <span>{{ articles|length }}</span></h2><a href="{% url 'encyclopedia:random' %}">Случайная статья</a></div>
+  {% if query %}<p>Результаты по запросу «{{ query }}»</p>{% endif %}
+  <div class="article-grid">
+    {% for article in articles %}{% include 'encyclopedia/card.html' %}{% empty %}
+    <p class="empty-state">Пока ничего не нашлось. Попробуйте изменить запрос или раздел.</p>
+    {% endfor %}
+  </div>
+</section>
+{% if recent_articles %}
+<section class="recent"><h2>Вы недавно читали</h2><ul>
+  {% for item in recent_articles %}<li><a href="{% url 'encyclopedia:article' item.slug %}">{{ item.title }}</a></li>{% endfor %}
+</ul></section>
+{% endif %}
+{% endblock %}

@@ -227,5 +227,9 @@ __marimo__/
 # Local preview and collected assets
 staticfiles/
 .preview/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 .idea/

@@ -1,0 +1,18 @@
+{% extends 'encyclopedia/base.html' %}
+{% load static %}
+{% block title %}{{ article.title }} — Атлас{% endblock %}
+{% block content %}
+<p><a href="{% url 'encyclopedia:index' %}">Главная</a> / {{ article.category_title }}</p>
+<article class="article-page">
+  <h1>{{ article.title }}</h1>
+  <p>{{ article.subtitle }}</p>
+  <img class="article-image" width="960" height="600" src="{% static 'images/' %}{{ article.image }}" alt="{{ article.image_alt }}">
+  <p>{{ article.summary }}</p>
+  <h2>Содержание</h2>
+  <ol>{% for title, text in article.sections %}<li><a href="#section-{{ forloop.counter }}">{{ title }}</a></li>{% endfor %}</ol>
+  <h2>Краткие факты</h2>
+  <ul>{% for value, label in article.facts %}<li><strong>{{ value }}</strong> — {{ label }}</li>{% endfor %}</ul>
+  {% for title, text in article.sections %}<section id="section-{{ forloop.counter }}"><h2>{{ title }}</h2><p>{{ text }}</p></section>{% endfor %}
+</article>
+<p><a href="{% url 'encyclopedia:index' %}">Вернуться на главную</a></p>
+{% endblock %}

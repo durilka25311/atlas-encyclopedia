@@ -1,0 +1,27 @@
+{% load static %}
+<!doctype html>
+<html lang="ru" data-theme="{{ theme }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Атлас — онлайн-энциклопедия{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="{% url 'encyclopedia:index' %}"><span class="site-name">Атлас</span><span class="brand-description">Онлайн-энциклопедия</span></a>
+    <nav aria-label="Навигация"><a href="{% url 'encyclopedia:index' %}" {% if request.resolver_match.url_name == 'index' %}aria-current="page"{% endif %}>Главная</a></nav>
+    <form class="theme-form" method="post" action="{% url 'encyclopedia:preferences' %}" aria-label="Выбор темы">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button name="theme" value="light" aria-pressed="{% if theme == 'light' %}true{% else %}false{% endif %}">Светлая</button>
+      <button name="theme" value="dark" aria-pressed="{% if theme == 'dark' %}true{% else %}false{% endif %}">Тёмная</button>
+    </form>
+  </div></header>
+  <main>
+    {% if theme_errors %}<div class="errors" role="alert">Не удалось сохранить тему. Выберите светлую или тёмную тему.{{ theme_errors }}</div>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Атлас — онлайн-энциклопедия</footer>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% load static %}
+<article class="article-card">
+  <a class="card-image" href="{% url 'encyclopedia:article' article.slug %}" aria-label="{{ article.title }}"><img src="{% static 'images/' %}{{ article.image }}" alt="{{ article.image_alt }}" width="960" height="600" loading="lazy"></a>
+  <div class="card-text">
+    <div class="card-meta"><span class="category">{{ article.category_title }}</span><span>{{ article.reading_time }} мин чтения</span></div>
+    <h3><a href="{% url 'encyclopedia:article' article.slug %}">{{ article.title }}</a></h3>
+    <p class="card-summary">{{ article.summary }}</p>
+    <a class="read-link" href="{% url 'encyclopedia:article' article.slug %}">Читать статью <span aria-hidden="true">→</span></a>
+  </div>
+</article>
